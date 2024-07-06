@@ -10,17 +10,14 @@ public class FbScrape
 {
 
     private string _baseUrl = "";
-
     private string _aboutClassName = "x1yztbdb";
     private IWebDriver _driver;
-    private ChromeOptions _chromeOptions;
-
     private WebDriverWait _wait;
 
     public FbScrape(string baseUrl){
         _baseUrl = baseUrl;
-        _chromeOptions = new ChromeOptions();
-        _driver = new ChromeDriver(_chromeOptions);
+        ChromeOptions options = ConfigureChromeOptions();
+        _driver = new ChromeDriver(options);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
     }
 
@@ -29,7 +26,7 @@ public class FbScrape
         options.AddArgument("--disable-notifications");
         options.AddArgument("--disable-infobars");
         options.AddArgument("--start-maximized");
-        options.AddArgument("headless");
+        options.AddArgument("--headless");
         return options;
     }
 
@@ -46,22 +43,21 @@ public class FbScrape
 
     }
 
-    // public static void Test(string url){
-    //     string className = "x1yztbdb";
-    //     ChromeOptions options = ConfigureChromeOptions();
-    //     using (IWebDriver driver = new ChromeDriver(options)){
-    //         WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
-    //         try{
-    //             driver.Navigate().GoToUrl(url);
-    //             wait.Until(drv => drv.FindElement(By.TagName("body")));
-    //             IWebElement element = driver.FindElement(By.ClassName(className));
-    //             string text = element.Text;
-    //             Console.WriteLine(text);
-    //         } catch (NoSuchElementException ex){
-    //             Console.WriteLine("Element not found: " + ex.Message);
-    //         }
-    //     }
-    // }
-
+    public static void Test(string url){
+        string className = "x1yztbdb";
+        ChromeOptions options = ConfigureChromeOptions();
+        using (IWebDriver driver = new ChromeDriver(options)){
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            try{
+                driver.Navigate().GoToUrl(url);
+                wait.Until(drv => drv.FindElement(By.TagName("body")));
+                IWebElement element = driver.FindElement(By.ClassName(className));
+                string text = element.Text;
+                Console.WriteLine(text);
+            } catch (NoSuchElementException ex){
+                Console.WriteLine("Element not found: " + ex.Message);
+            }
+        }
+    }
   
 }
