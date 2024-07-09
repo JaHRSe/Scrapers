@@ -1,14 +1,23 @@
 ﻿using FbScrapeLib;
 
-class Program{
-    static void Main(string[] args){
+class Program
+{
+    static void Main(string[] args)
+    {
         string url = "https://www.facebook.com/NintendoAmerica/about";
-        FbScrape scraper = new FbScrape(url);
-        ScrapeResults results = scraper.getAboutInfo();
-        if(results.IsSuccess){
-            Console.WriteLine(results.Results);
-        }else{
-            Console.WriteLine(results.Error);
+        using (FbScraper scraper = new FbScraper(url))
+        {
+            ScrapeResults aboutData = scraper.ScrapeAbout();
+            if (aboutData.IsSuccess)
+            {
+                Console.WriteLine(aboutData.Results);
+            }
+            else
+            {
+                Console.WriteLine(aboutData.Error);
+            }
+
         }
+
     }
 }
