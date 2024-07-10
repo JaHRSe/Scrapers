@@ -12,19 +12,19 @@ public class FbScraper : IDisposable
         _aboutScraper = new AboutScraper(baseUrl);
     }
 
-    public ScrapeResults ScrapeAbout()
+    public Dictionary<string, ScrapeResults> ScrapeAbout()
     {
         return _aboutScraper.GetScrapeResults();
     }
 
-    public Dictionary<string, ScrapeResults> ScrapeAll()
-    {
-        var results = new Dictionary<string, ScrapeResults>
-        {
-            {"About", ScrapeAbout()},
-        };
-        return results;
-    }
+    // public Dictionary<string, ScrapeResults> ScrapeAll()
+    // {
+    //     var results = new Dictionary<string, ScrapeResults>
+    //     {
+    //         {"About", ScrapeAbout()},
+    //     };
+    //     return results;
+    // }
 
 
     public void Dispose()

@@ -35,8 +35,20 @@ public abstract class AbstractScraper : IDisposable
         return options;
     }
 
-    public abstract ScrapeResults GetScrapeResults();
+    public abstract Dictionary<string, ScrapeResults> GetScrapeResults();
 
+    protected ScrapeResults TryFindElementTextByClass(string className)
+    {
+        try
+        {
+            IWebElement element = _driver.FindElement(By.ClassName(className));
+            return new ScrapeResults { Results = element.Text };
+        }
+        catch (NoSuchElementException ex)
+        {
+            return new ScrapeResults { Error = ex };
+        }
+    }
     public void Dispose()
     {
         Dispose(disposing: true);

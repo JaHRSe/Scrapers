@@ -9,26 +9,27 @@ namespace FbScrapeLib;
 internal class AboutScraper : AbstractScraper
 {
 
-    private string _aboutClassName = "x1yztbdb";
+    private string aboutBlockClassName = "x19xhxss";
 
-    public AboutScraper(string baseUrl) : base(baseUrl)
+    public AboutScraper(string baseUrl) : base(baseUrl + "/about")
     {
     }
 
-    public override ScrapeResults GetScrapeResults()
+    public override Dictionary<string, ScrapeResults> GetScrapeResults()
     {
+        var results = new Dictionary<string, ScrapeResults> { };
         try
         {
+            Console.WriteLine($"Scraping: {_baseUrl}");
             _driver.Navigate().GoToUrl(_baseUrl);
             _wait.Until(driver => _driver.FindElement(By.TagName("body")));
-            IWebElement element = _driver.FindElement(By.ClassName(_aboutClassName));
-            return new ScrapeResults { Results = element.Text };
+            results.Add("aboutBlock", TryFindElementTextByClass(aboutBlockClassName));
+
         }
         catch (NoSuchElementException ex)
         {
             Console.WriteLine("Element not found: " + ex.Message);
-            return new ScrapeResults { Error = ex };
         }
-
+        return results;
     }
 }
